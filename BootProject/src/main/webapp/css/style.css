@@ -1,0 +1,333 @@
+body{
+	margin-top: 0;margin-left: 0;
+	background:url("/logo/unnamed.jpg");
+	background-size: cover;
+	}
+	
+a{text-decoration: none;}
+
+legend{
+	color: white;
+	background-color: #804000;
+	border: none;
+	border-top: 2px groove;
+}
+
+.menu-tab-color{
+	background-color: green;
+}
+.ui-autocomplete {
+	position: absolute;
+	cursor: default; 
+	background-color:#804000;
+	color: white;
+}
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 10px;
+    background-color: #b7b7b7;    
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+    background-color: #747474;
+}
+
+
+/* =========================================================HEADER========================================================== */
+
+.header{
+top:0;
+position:fixed;
+width: 19%;
+height: 100px;
+}
+
+.logo-div{
+	margin-left:2%;
+	margin-top:10px;
+	width: 95%;
+	height: 70px;
+	float: left;
+	box-shadow: 10px 10px 5px #262626;
+}
+
+#logo{
+	width: 100%;
+	height: 70px;
+}
+
+.restaurantname-div{
+		margin-top:10px;
+		margin-left:2%;
+		width: 20%;
+		height: 50px;
+		float:left;
+		text-align:center;		
+}
+
+.restaurantname-top-div{
+	width: 80%;
+	height: 40px;
+	border: 1px solid;
+}
+
+.restaurantname-bottom-div{
+	width: 80%;
+	height: 40px;
+	border: 1px solid;
+}
+
+#restaurantname-top{
+	font-size: 35px;
+	font-family: fantasy;
+	font-weight: bolder;
+	color: #a9381d;
+	text-shadow:  5px 3px #c0c0c0;
+}
+#restaurantname-bottom{
+	font-size: 25px;
+	font-family: fantasy;
+	font-weight: bolder;
+	color: #a9381d;
+	text-shadow:  5px 3px #c0c0c0;
+}
+
+/* =========================================================container========================================================== */
+
+.container{
+	width:75%;
+	height:500px;
+	margin-right:2%;
+	float:right;
+	}
+
+/* ===========================================================IndexPage=========================================================== */
+.radio-inline{
+	color: white;
+}
+.create-bill-area{
+	margin-top:15px;
+	width: 100%;
+	height: auto;
+	border: 2px groove;
+	border-radius:7px;
+	box-shadow: 10px 10px 5px #262626;
+	background-color: #804000;
+	opacity: 0.85;
+	color: white;
+}
+
+.bill-area-firstline{
+	margin-top:0px;
+	margin-left:5%;
+	width: 85%;
+	height: 40px;
+	
+}
+
+.ifield,.ifield:FOCUS{
+	margin-left: 2%;
+	height: 25px;
+	width: 20%;
+	border: 2px groove #8c8c8c;
+	border-radius: 5px;
+}
+
+.small-field,.small-field:FOCUS{
+	width: 10%;
+}
+
+.table{
+	margin-top: 20px;
+	margin-left: 5%;
+	margin-top: 20px;
+	}
+	
+.spacer{
+	width:100%;
+	height: 20px;
+}
+
+.billing-table {
+	margin-top:10px;
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    background-color: #804000;
+    opacity:0.85;
+    color: white;
+}
+
+.billing-th, .billing-td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 4px;
+}
+
+/* tr:nth-child(even) {
+    background-color: #dddddd;
+} */
+
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 7px 4px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.button {
+    background-color: white;
+    color: black;
+    border: 2px solid #e7e7e7;
+}
+
+.button:hover {background-color: #e7e7e7;}
+
+.indexpage-buttons{
+	margin-top:20px;
+	text-align:right;
+	width: 100%;
+	height: auto;
+}
+
+/* ===============================================menu============================================================= */
+	#header-text{
+	font-size: 20px;
+	font-family: fantasy;
+	font-weight: bold;
+	color: #333333;
+	}
+	
+	.menu{	
+	margin-top:100px;
+	width: 19%;
+	height: 500px;
+	float:left;
+	
+	}
+	
+	.menu-table-area{
+		height:260px;
+		overflow: auto;		
+	}
+	
+	.menu-container-top{
+	width: 100%;
+	height: 200px;
+	text-align: center;	
+		
+	}
+
+	.menu-item{
+		margin-top:10px;
+		width: 100%;
+		height: 30px;
+		cursor: pointer;		
+		background-color: #5b66b3;
+		box-shadow: 10px 10px 5px #262626;
+	}
+	
+	#menu-item{			
+		font-size:20px;
+		color:white;
+		cursor: pointer;
+	}
+	.menu-container-bottom{
+		width: 100%;
+		height: auto;
+		text-align: center;		
+	}
+
+	.menu-header-container{
+	width: 100%;
+	height: auto;
+	}
+	
+	.menu-header-title{
+	display: inline-block;
+	margin-left:3.1%;
+	}
+	
+	a,a:HOVER,a:ACTIVE{
+		color: #8c8c8c;
+	}
+
+/* ===============================================AddProduct============================================================= */
+.fieldset{
+	width: 40%;
+	margin-left: 25%;
+	background-color: #804000;
+	opacity:0.85;
+	box-shadow: 10px 10px 5px #262626;
+    color: white;
+}
+
+.configuration{
+	width: 40%;
+	margin-left: 25%;
+	margin-top:100px;
+	background-color: #804000;
+	opacity:0.85;
+	box-shadow: 10px 10px 5px #262626;
+    color: white;
+}
+
+/* ===============================================History Page============================================================= */
+.history_container{
+	width:75%;
+	height:500px;
+	margin-right:2%;
+	float:right;
+	overflow: auto;	
+}
+
+.history_tile{
+	margin-top:30px;
+	margin-left:3%;
+	width: 20%;
+	height: 100px;
+	border: 2px groove;
+	display: inline-block;
+	border-radius: 5px;
+	box-shadow: 10px 10px 5px #262626;
+	background-color:#804000;
+	opacity:0.85;
+	color: white;
+	
+}
+
+.complete-record{
+	position:absolute;
+	top:0;
+	left:0;
+	margin-left:28%;
+	margin-top:100px;
+	width: 40%;
+	height: 300px;
+	display: none;
+	border:2px groove;
+	background-color: #804000;
+	opacity:0.85;
+	border-radius: 7px;
+	box-shadow: 10px 10px 5px #262626;
+}
+
+#close{
+	width: 40px;
+	height: 40px;
+	float:right;
+}
+
+

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title></title>
+<link rel="stylesheet" th:href="@{/css/style.css}"/>
+<script type="text/javascript" th:src="@{/js/angular.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/script.js}"></script>
+</head>
+<body>
+<div th:fragment="menu" class="menu">
+<div class="menu-container-top">
+	<a href="/.html">
+	<div class="menu-item">
+		<label id="menu-item">Home</label>
+	</div>
+	</a>
+	<a href="/addproductform.html">	
+	<div class="menu-item">
+		<label id="menu-item">Add Product</label>
+	</div>
+	</a>
+	<a href="/getorderhistory.html">	
+	<div class="menu-item">
+		<label id="menu-item">Order History</label>
+	</div>
+	</a>
+	<a href="/configurationpage.html">	
+	<div class="menu-item">
+		<label id="menu-item">Settings</label>
+	</div>
+	</a>
+</div>
+<div class="menu-header-container">
+	<div class="menu-header-title">
+		<button class="button table" style="background-color: green;">Tables</button>
+	</div>
+	<div class="menu-header-title">
+		<button class="button delivery">Delivery</button>
+	</div>
+	<div class="menu-header-title">
+		<button class="button take-away">Takeaway</button>
+	</div>
+</div>
+<div class="menu-container-bottom">
+	
+	<div class="menu-table-area" id="dine-in">
+	<ul style="list-style: none;padding: 0;">		
+		<a th:each="table : ${tables}" th:if="${table != 0}" th:href="@{/.html(table=${table.key})}">
+		<li class="menu-item">
+		<label id="menu-item" th:text="'Table'+${table.key}"></label>
+		<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+		<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+		<label id="menu-item" th:text="${table.value}"></label>
+		</li>
+		</a>
+	</ul>
+	</div>
+	
+	<div class="menu-table-area" id="take-away" style="display: none">
+		<ul style="list-style: none;padding: 0;">
+			<li class="menu-item">
+			<label id="menu-item">&nbsp;Id&nbsp;</label>
+			<label id="menu-item">Quantity</label>
+			<label id="menu-item">&nbsp;Total&nbsp;</label>
+			<label id="menu-item">&nbsp;GTotal&nbsp;</label>
+			</li>
+		</ul>
+		<ul style="list-style: none;padding: 0;">		
+			<a th:each="takeaway : ${takeaway}" th:href="@{/getitemfromhistorytocurrent.html(id=${takeaway.id})}">
+			<li class="menu-item">
+			<div style="width:22%;display: inline-block;"><label id="menu-item" th:text="${takeaway.id}"></label></div>
+			<div style="width:22%;display: inline-block;"><label id="menu-item" th:text="${takeaway.total_quantity}"></label></div>
+			<div style="width:22%;display: inline-block;"><label id="menu-item" th:text="${takeaway.total_Amount}"></label></div>
+			<div style="width:22%;display: inline-block;"><label id="menu-item" th:text="${takeaway.gtotal}"></label></div>
+			</li>
+			</a>
+		</ul>
+	</div>
+	<div class="menu-table-area" id="delivery" style="display: none;">
+		<ul style="list-style: none;padding: 0;">
+			<li class="menu-item">
+			<label id="menu-item">&nbsp;Id&nbsp;</label>
+			<label id="menu-item">Quantity</label>
+			<label id="menu-item">&nbsp;Total&nbsp;</label>
+			<label id="menu-item">&nbsp;GTotal&nbsp;</label>
+			</li>
+		</ul>
+		<ul style="list-style: none;padding: 0;">		
+			<a th:each="delivery : ${delivery}" th:href="@{/getitemfromhistorytocurrent.html(id=${delivery.id})}">
+			<li class="menu-item">
+			<div style="width:22%;display: inline-block;"><label id="menu-item" th:text="${delivery.id}"></label></div>
+			<div style="width:22%;display: inline-block;"><label id="menu-item" th:text="${delivery.total_quantity}"></label></div>
+			<div style="width:22%;display: inline-block;"><label id="menu-item" th:text="${delivery.total_Amount}"></label></div>
+			<div style="width:22%;display: inline-block;"><label id="menu-item" th:text="${delivery.gtotal}"></label></div>
+			</li>
+			</a>
+		</ul>
+	</div>
+</div>
+</div>
+
+</body>
+</html>

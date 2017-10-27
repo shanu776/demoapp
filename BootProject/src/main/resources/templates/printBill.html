@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title></title>
+</head>
+<body>
+<table>
+<tr>
+	<th>product</th><th>quantity</th><th>Price</th>
+</tr>
+<tr th:each="bill:${order}">
+	<td th:text="${bill.product_name}" align="center"></td><td th:text="${bill.quantity}" align="center">quantity</td>
+	<td th:text="${bill.price}"></td>
+</tr>
+<tr>
+<th colspan="2">Total</th><td th:text="${total}"></td>
+</tr>
+<tr>
+<th colspan="2">GST</th><td th:text="${gst}"></td>
+</tr>
+<tr>
+<th colspan="2">GST+Total</th><td th:text="${gtotal}"></td>
+</tr>
+<tr>
+	<th>Mobile</th><td th:text="${monaddr.mobile}"></td>
+</tr>
+<tr>
+	<th>Address</th><td th:text="${monaddr.address}"></td>
+</tr>
+</table>
+<script type="text/javascript">
+printbill();
+function printbill(){
+	alert("bill");
+	//print();
+	location.href="/.html";
+}
+</script>
+</body>
+</html>

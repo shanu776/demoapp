@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" th:href="@{/css/style.css}"/>
+<script type="text/javascript" th:src="@{/js/jquery-3.2.1.js}"></script>
+<title>AddProduct</title>
+</head>
+<body>
+<div th:replace="fragment/header :: header">&nbsp;</div>
+<div th:replace="fragment/menu :: menu">&nbsp;</div>
+<div class="container">
+<fieldset class="fieldset" style="margin-top: 100px;">
+<legend>AddProduct</legend>
+<form action="" th:action="@{/addproduct.html}" th:object="${product}" method="post">
+	<table>
+		<tr>
+			<td><label>Short Name:</label> </td>
+			<td><input type="text" name="short_name"/></td>
+		</tr>
+		<tr>
+			<td>Product Name:</td>
+			<td><input type="text" name="name"/></td>
+		</tr>
+		<tr>
+			<td><label>Price</label> </td>
+			<td><input type="text" name="price"/></td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center"><input type="submit" name="Save"/></td>
+		</tr>
+	</table>
+</form>
+</fieldset>
+</div>
+
+<script type="text/javascript" th:src="@{/js/script.js}"></script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Index</title>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+<link rel="stylesheet" th:href="@{/css/style.css}"/>
+
+<script type="text/javascript" th:src="@{/js/fullscreen.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-3.2.1.js}"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript" th:src="@{/js/shortcut.js}"></script>
+</head>
+<body>
+<script type="text/javascript" th:inline="javascript"> var product = [[${product}]];var table = [[${table}]];</script>
+<div th:replace="fragment/header :: header">&nbsp;</div>
+<div th:replace="fragment/menu :: menu">&nbsp;</div>
+<div class="container">
+<form action="" th:action="@{/addorder.html}" th:object="${order}" method="post">
+<input type="hidden" id="productid" name="product_id" th:value="${order.product_id}"/>
+<input type="hidden" id="id" name="id" th:value="${order.id}"/>
+
+	<div class="create-bill-area">
+		<div class="bill-area-firstline">
+			<label class="radio-inline" th:if="${table!=null}"><input type="radio" name="order_type" value="dinein"  th:checked="checked" th:unless="${table}==null" required="required"/>Dine In</label>			
+			<label class="radio-inline" th:if="${table==null}"><input type="radio" name="order_type" value="dinein" required="required"/>Dine In</label>
+			
+			<label class="radio-inline" th:if="${table==null and order_type=='takeaway'}"><input type="radio" name="order_type" value="takeaway" th:checked="checked"/>Take Away</label>
+			<label class="radio-inline" th:if="${table==null and order_type!='takeaway'}"><input type="radio" name="order_type" value="takeaway"/>Take Away</label>
+			
+			<label class="radio-inline" th:if="${table==null and order_type=='delivery'}"><input type="radio" name="order_type" value="delivery" th:checked="checked"/>Delivery</label>
+			<label class="radio-inline" th:if="${table==null and order_type!='delivery'}"><input type="radio" name="order_type" value="delivery"/>Delivery</label>			
+			
+			<label id="table-no" th:if="${table!=null}" style="float:right;"><input type="number" name="tableno" class="table-no ifield" th:value="${table}" min="1"/>Table_No</label>
+			
+			<label id="table-no"  th:if="${table}==null" style="float:right; display: none;"><input type="number" name="tableno" class="table-no ifield" min="1"/>Table_No</label>
+		</div>
+		
+		<div class="bill-area-firstline">			
+			<label><input type="text" class="ifield" name="product_name" id="search-box" th:value="${order.product_name}" autocomplete="off" required="required" autofocus="autofocus" placeholder=" Item"/></label>			 
+			
+			<label><input type="text" class="ifield" name="comment"  th:value="${order.comment}" autocomplete="off"  placeholder=" Special Comment"/></label>			
+			
+			<label><input type="number" class="ifield small-field" id="quantity" name="quantity" th:value="${order.quantity}" autocomplete="off" required="required" placeholder=" Quantity"/></label>
+			
+			<label><input type="text" class="ifield small-field" id="price" th:value="${order.price}" name="price" placeholder=" Price"/></label>
+			
+			<label><input type="submit" value="done"/></label>
+		</div>
+		
+		<div class="bill-area-firstline" id="mo-n-addr" style="height: 40px;"  th:if="${table==null}">
+			<label><input type="number" class="ifield" name="mobile" id="search-mobile" th:value="${order.mobile}" autocomplete="off" placeholder=" MobileNo"/></label>			 
+			
+			<label><input class="ifield" id="address" th:value="${order.address}" name="address" placeholder=" Address"/></label>
+		</div>		
+		<!-- <div class="spacer"></div> -->
+	</div>
+	</form>
+	<div class="create-bill-area" style="height: 150px;overflow: auto;">
+		<script type="text/javascript" th:inline="javascript">
+		var total_gst=[[${gst.cgst + gst.cgst}]];
+		var totalAmount=[[${totalamount}]];
+		</script>
+		
+		<table class="billing-table">
+			<tr>
+				<th class="billing-th">Product</th>
+				<th class="billing-th">Quantity</th>
+				<th class="billing-th">Price</th>
+				<th class="billing-th">Kot</th>
+				<th class="billing-th">Edit</th>
+				<th class="billing-th">Del</th>
+			</tr>
+			<tr th:each="t:${tabledata}">
+				<td class="billing-td" th:text="${t.product_name}"></td>
+				<td class="billing-td" th:text="${t.quantity}"></td>
+				<td class="billing-td" th:text="${t.price}"></td>
+				<td class="billing-td" th:if="${t.kot==t.quantity}"><label>Gen</label></td>
+				<td class="billing-td" th:unless="${t.kot==t.quantity}"><label>NotGen</label></td>
+				<td class="billing-td"><a th:href="@{./updateorder(id=${t.id})}">edit</a></td>
+				<td class="billing-td"><a th:href="@{/deletecurrentorder.html(id=${t.id})}">x</a></td>
+			</tr>
+		</table>
+	</div>
+	<div class="create-bill-area">
+		<table class="billing-table">
+			<tr><td class="billing-td" colspan="4">Total</td><td colspan="4" class="billing-td" id="totalamount" style="width: 20%;"></td></tr>
+			<tr>
+				<td class="billing-td"><label>Discount</label></td>
+				<td class="billing-td" colspan="3">
+					<input type="text" class="ifield small-field" id="discount-percentage" value="0"/><b>%</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="text" class="ifield small-field" id="discount-value" value="0"/><b>Rs.</b>
+				</td>
+				<td colspan="4" class="billing-td" id="discounted-amount"></td>
+			</tr>
+			<tr><td class="billing-td" colspan="4">CGST+SGST</td><td colspan="4" class="billing-td" id="gst"></td></tr>
+			<tr><td class="billing-td" colspan="4">GrandTotal</td><td colspan="4" class="billing-td" id="gtotal"></td></tr>
+			<tr>
+				<td class="billing-td"><label>ContainerCharge</label></td>
+				<td class="billing-td"><input type="text" class="ifield" id="ccharge" value="0"/></td>
+				<td class="billing-td"><label>Delivery</label></td>
+				<td class="billing-td"><input type="text" class="ifield" id="dcharge" value="0"/></td>
+				<td colspan="4" class="billing-td" id="amount-with-extras"></td>
+			</tr>
+		</table>
+		<div class="spacer"></div>		
+	</div>
+	<div class="indexpage-buttons">
+			<button class="button">Save and Settle</button>
+			<button class="button" style="margin-left: 5%;" onclick="printKot()">Print Kot</button>
+			<button class="button" style="margin-left: 5%;" onclick="printBill()">Print Bill</button>
+			<button class="button" style="margin-left: 5%;">Clear All</button>
+			<button class="button" style="margin-left: 5%;">Black</button>
+		</div>
+</div>
+<script type="text/javascript" th:src="@{/js/script.js}"></script>
+</body>
+</html>

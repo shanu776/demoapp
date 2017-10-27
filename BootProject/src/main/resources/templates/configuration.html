@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+<link rel="stylesheet" th:href="@{/css/style.css}"/>
+<script type="text/javascript" th:src="@{/js/jquery-3.2.1.js}"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript" th:src="@{/js/shortcut.js}"></script>
+<title>Restaurant</title>
+<style type="text/css">
+.ifield{
+width: 70%;
+}
+</style>
+</head>
+<body>
+<div th:replace="fragment/header :: header">&nbsp;</div>
+<div th:replace="fragment/menu :: menu">&nbsp;</div>
+<div class="container">
+<fieldset class="configuration">
+<legend>Configuration</legend>
+<form action="" th:action="@{saveconfiguration.html}" th:object="${configuration}" th:method="post" enctype="multipart/form-data">
+<table style="width: 100%;">
+	<tr>
+		<td><label>Restaurant_Name:</label></td>
+		<td><input type="text" class="ifield" size="200" name="restaurent_name" th:value="${config.restaurent_name}"/></td>
+	</tr>
+	<tr>
+		<td><label>Restaurant_Address:</label></td>
+		<td><input type="text" class="ifield" size="150" name="address" th:value="${config.address}"/></td>
+	</tr>
+	<tr>
+		<td><label>Address_line2:</label></td>
+		<td><input type="text" class="ifield" size="150" name="address_linr1" th:value="${config.address_linr1}"/></td>
+	</tr>
+	<tr>
+		<td><label>MobileNo:</label></td>
+		<td><input type="text" class="ifield" size="150" name="mobile_no" th:value="${config.mobile_no}"/></td>
+	</tr>
+	<tr>
+		<td><label>GstNo:</label></td>
+		<td><input type="text" class="ifield" size="150" name="gst_no" th:value="${config.gst_no}"/></td>
+	</tr>
+	<tr>
+		<td><label>CGST:</label></td>
+		<td><input type="text" class="ifield" size="150" name="cgst" th:value="${config.cgst}"/></td>
+	</tr>
+	<tr>
+		<td><label>SGST:</label></td>
+		<td><input type="text" class="ifield" size="150" name="sgst" th:value="${config.sgst}"/></td>
+	</tr>
+	<tr>
+		<td><label>tax type</label></td>
+		<td>
+			<label class="radio-inline"><input type="radio" name="tax_type" value="inclusive" required="required"/>Inclusive</label>
+			<label class="radio-inline"><input type="radio" name="tax_type" value="exclusive"/>Exclusive</label>
+		</td>
+	</tr>
+	<tr>
+		<td><label>Logo:</label></td>
+		<td><input type="file" class="ifield" size="150" name="logo"/></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td><input type="submit" value="save"/></td>
+	</tr>
+</table>
+</form>
+</fieldset>
+</div>
+<script type="text/javascript" th:inline="javascript">
+var val = [[${config.tax_type}]];
+if(val==$('input[value=inclusive]').val()){
+	$('input[value=inclusive]').attr("checked","true");
+}else{
+	$('input[value=exclusive]').attr("checked","true");
+}
+</script>
+</body>
+</html>

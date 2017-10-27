@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Insert title here</title>
+</head>
+<body>
+<table>
+<tr>
+	<th>product</th><th>quantity</th>
+</tr>
+<tr th:each="kot:${kotitem}">
+	<td th:text="${kot.product_name}" align="center"></td><td th:text="${kot.quantity}" align="center">quantity</td>
+</tr>
+</table>
+<script type="text/javascript">
+printbill();
+function printbill(){
+	alert("kot");
+	//print();
+	location.href="/.html";
+}
+</script>
+</body>
+</html>

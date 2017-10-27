@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>OrderHistory</title>
+<link rel="stylesheet" th:href="@{css/style.css}"/>
+<script type="text/javascript" th:src="@{js/script.js}"></script>
+<script type="text/javascript" th:src="@{js/jquery-3.2.1.js}"></script>
+</head>
+<body>
+<div th:replace="fragment/header :: header">&nbsp;</div>
+<div th:replace="fragment/menu :: menu">&nbsp;</div>
+<div class="history_container">
+	<div class="collection" style="width: 100%;">
+	<table class="billing-table">
+	<tr>
+	<td class="billing-td">TotalDelivery</td><td class="billing-td">TotalTakeaway</td>
+	<td class="billing-td">TotalTable</td><td class="billing-td">TotalCollection</td>
+	</tr>
+	<tr>
+	<td class="billing-td" th:text="${total_delivery}"></td><td class="billing-td" th:text="${total_takeaway}"></td>
+	<td class="billing-td" th:text="${total_table}"></td><td class="billing-td" th:text="${total_collection}"></td>
+	</tr>
+	</table>
+	</div>
+	<div class="history_tile" th:each="h:${orderHistory}" th:onclick="'javascript:showRecord('+${h.id}+')'">
+		<table style="width: 100%;">
+		<tr>
+			<th colspan="2" th:text="${h.date}"></th>
+		</tr>
+		<tr>
+			<td>OrderType</td><td th:text="${h.order_type}"></td>
+		</tr>
+		<tr>
+			<td>Sub-Total</td><td th:text="${h.total_Amount}"></td>
+		</tr>
+		<tr>
+			<td>Total</td><td th:text="${h.gtotal}"></td>
+		</tr>		
+		</table>
+	</div>
+</div>
+
+<div class="complete-record">
+<div style="height: 40px;"><img id="close" th:src="@{logo/close.jpg}"/></div>
+	<table class="billing-table">
+		<tr>
+			<th class="billing-th">Id</th><th class="billing-th">Item</th><th class="billing-th">Quantity</th><th class="billing-th">Price</th>
+		</tr>
+		<tbody id="tbody">
+		</tbody>
+	</table>
+</div>
+<script type="text/javascript">
+$('#close').on('click',function(){
+	$('.complete-record').hide();
+	$('.history_container').css("display","block");
+});
+
+</script>
+</body>
+</html>
