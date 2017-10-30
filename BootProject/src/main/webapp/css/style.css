@@ -6,6 +6,11 @@ body{
 	
 a{text-decoration: none;}
 
+ul{
+	padding:0;
+	list-style: none;
+}
+
 legend{
 	color: white;
 	background-color: #804000;
@@ -285,6 +290,13 @@ height: 100px;
 }
 
 /* ===============================================History Page============================================================= */
+.reportmenu{
+	margin-top:10px;
+	width: 100%;
+	height: 50px;
+	text-align: center;
+}
+
 .history_container{
 	width:75%;
 	height:500px;
@@ -328,6 +340,19 @@ height: 100px;
 	width: 40px;
 	height: 40px;
 	float:right;
+}
+
+.sold-prod-div{
+	width: 24%;
+	height: 80px;
+	display: inline-block;
+	border:2px groove;
+	background-color: #804000;
+	border-radius: 7px;
+	box-shadow: 10px 10px 5px #262626;
+	overflow: hidden;
+	text-align:center;
+	color: white;
 }
 
 

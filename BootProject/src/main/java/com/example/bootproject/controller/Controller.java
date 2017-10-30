@@ -26,6 +26,7 @@ import com.example.bootproject.dao.MobileAndAddrDaoImpl;
 import com.example.bootproject.dao.OrderDaoImpl;
 import com.example.bootproject.dao.ProductDaoImpl;
 import com.example.bootproject.model.Configuration;
+import com.example.bootproject.model.DailySoldItems;
 import com.example.bootproject.model.Items;
 import com.example.bootproject.model.MobileAndAddress;
 import com.example.bootproject.model.OrderHistory;
@@ -449,6 +450,16 @@ public String getItemFromHistoryToCurrent(HttpServletRequest request){
 	});
 	orderDao.deleteOrderHistory(orderHistory);
 	return "redirect:/.html";
+}
+
+@RequestMapping(value="solditemreport")
+public String soldItemReport(Model model){
+	LocalDate localDate = LocalDate.now();
+    String date = DateTimeFormatter.ofPattern("dd/MM/yyy").format(localDate);
+	List<DailySoldItems> soldItem = orderDao.dailysoldItems(date);
+	model.addAttribute("saleProduct", soldItem);
+	System.out.println(soldItem.toString());
+	return "soldItemsReport";
 }
 
 /*****************************************

@@ -1,5 +1,7 @@
 package com.example.bootproject.dao;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -9,6 +11,7 @@ import javax.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.bootproject.model.DailySoldItems;
 import com.example.bootproject.model.Items;
 import com.example.bootproject.model.OrderHistory;
 import com.example.bootproject.model.OrderItems;
@@ -117,6 +120,22 @@ EntityManagerFactory emf;
 	
 	public void deleteOrderHistory(OrderHistory orderHistory) {
 		orderHistoryDao.delete(orderHistory);
+	}
+	
+	public List<DailySoldItems> dailysoldItems(String date){
+		List<DailySoldItems> dailyoldItem = new ArrayList<>();
+		EntityManager em=emf.createEntityManager();
+		em.getTransaction().begin();
+		Query q=em.createNativeQuery("SELECT i.prodoct,SUM(i.quantity) quantity "
+				+ "FROM order_history o INNER JOIN items i ON o.id=i.order_history_id "
+				+ "group by i.product_id");
+		List<Object[]> list = q.getResultList();
+		for (Object[] obj : list){
+		    dailyoldItem.add(new DailySoldItems(obj[0].toString(), Integer.parseInt(obj[1].toString())));
+		}		
+		em.getTransaction().commit();
+		em.close();
+		return dailyoldItem;
 	}
 		
 }

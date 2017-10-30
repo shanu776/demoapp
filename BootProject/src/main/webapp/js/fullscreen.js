@@ -1,4 +1,6 @@
- window.onload = toggleFullScreen;
+/* window.onload = function(){
+	 toggleFullScreen(document.documentElement);
+ };*/
     function maxWindow() {
         window.moveTo(0, 0);
 
