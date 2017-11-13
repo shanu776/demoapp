@@ -42,7 +42,7 @@
 			
 			<label><input type="number" class="ifield small-field" id="quantity" name="quantity" th:value="${order.quantity}" autocomplete="off" required="required" placeholder=" Quantity"/></label>
 			
-			<label><input type="text" class="ifield small-field" id="price" th:value="${order.price}" name="price" placeholder=" Price"/></label>
+			<label><input type="text" class="ifield small-field" id="price" th:value="${order.price}" name="price" readonly="readonly" placeholder=" Price"/></label>
 			
 			<label><input type="submit" value="done"/></label>
 		</div>
@@ -76,7 +76,7 @@
 				<td class="billing-td" th:text="${t.price}"></td>
 				<td class="billing-td" th:if="${t.kot==t.quantity}"><label>Gen</label></td>
 				<td class="billing-td" th:unless="${t.kot==t.quantity}"><label>NotGen</label></td>
-				<td class="billing-td"><a th:href="@{./updateorder(id=${t.id})}">edit</a></td>
+				<td class="billing-td"><a th:href="@{/updateorder(id=${t.id})}">edit</a></td>
 				<td class="billing-td"><a th:href="@{/deletecurrentorder.html(id=${t.id})}">x</a></td>
 			</tr>
 		</table>
@@ -102,15 +102,15 @@
 				<td colspan="4" class="billing-td" id="amount-with-extras"></td>
 			</tr>
 		</table>
-		<div class="spacer"></div>		
+	<div class="spacer"></div>		
 	</div>
 	<div class="indexpage-buttons">
-			<button class="button">Save and Settle</button>
-			<button class="button" style="margin-left: 5%;" onclick="printKot()">Print Kot</button>
-			<button class="button" style="margin-left: 5%;" onclick="printBill()">Print Bill</button>
-			<button class="button" style="margin-left: 5%;">Clear All</button>
-			<button class="button" style="margin-left: 5%;">Black</button>
-		</div>
+		<button class="button">Save and Settle</button>
+		<button class="button" style="margin-left: 5%;" onclick="printKot()">Print Kot</button>
+		<button class="button" style="margin-left: 5%;" onclick="printBill()">Print Bill</button>
+		<button class="button" style="margin-left: 5%;">Clear All</button>
+		<button class="button" style="margin-left: 5%;">Black</button>
+	</div>
 </div>
 <script type="text/javascript" th:src="@{/js/script.js}"></script>
 </body>

@@ -108,6 +108,13 @@ public class OrderItems {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+			
+	public OrderItems(String product_name, String comment, Integer quantity) {
+		super();
+		this.product_name = product_name;
+		this.comment = comment;
+		this.quantity = quantity;
+	}
 	
 	public OrderItems(Integer product_id, String product_name, String comment, Integer quantity, Integer tableno,
 			String order_type, Float price, String date, Integer kot, String mobile, String address) {

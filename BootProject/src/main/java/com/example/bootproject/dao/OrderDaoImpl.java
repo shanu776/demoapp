@@ -76,8 +76,8 @@ EntityManagerFactory emf;
 		orderDao.delete(id);
 	}
 	
-	public void saveOrderHistory(OrderHistory orderHistory) {
-		orderHistoryDao.save(orderHistory);
+	public OrderHistory saveOrderHistory(OrderHistory orderHistory) {
+		return orderHistoryDao.save(orderHistory);
 	}
 	
 	public List<OrderHistory> getOrderHistory() {

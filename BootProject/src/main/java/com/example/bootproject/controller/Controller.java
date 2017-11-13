@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -177,7 +176,7 @@ public class Controller {
 		OrderItems order = orderDao.findone(orderId);
 		String table = this.table;		
 		List<OrderItems> items =  orderDao.findall();
-		List<OrderItems> orderList ;
+		List<OrderItems> orderList;
 		float totalamount = 0;
 		Set<Integer> tables = new HashSet<>();
 		items.forEach((item)->{
@@ -273,23 +272,31 @@ public class Controller {
 		Integer tableNo = Integer.parseInt(request.getParameter("tableno"));
 		System.err.println(tableNo);
 		List<OrderItems> kot = new ArrayList<>();
+		String date = "";
+		String o_type = "";
+		Integer table_no = null;
 		List<OrderItems> orders = orderDao.findallAccTable(tableNo);
-		orders.forEach(item->{
-			if(item.getKot()!=item.getQuantity())
-				item.setQuantity(item.getQuantity()-item.getKot());
-				kot.add(item);
-				item.setQuantity(item.getKot()+item.getQuantity());
-				item.setKot(item.getQuantity());
+		for(OrderItems item :orders){
+			OrderItems kotItem = null;
+			System.err.println(item.getQuantity());
+			if(item.getKot()<item.getQuantity()){
+				kotItem = new OrderItems(item.getProduct_name(),item.getComment(),item.getQuantity());
+				kotItem.setQuantity(item.getQuantity()-item.getKot());
+				kot.add(kotItem);
+				date = item.getDate();
+				o_type = item.getOrder_type();
+				table_no = item.getTableno();
+				System.err.println(item.getQuantity()+"  "+kotItem.getQuantity()+" "+item.getKot());
 				item.setKot(item.getQuantity());
 				orderDao.add(item);
-		});
+			}
+		}
 		if(!(kot.size()>0)){
 			return "redirect:/.html?table="+table;
 		}
-		model.addAttribute("kotitem",kot);
-		new CreateBillXLS().generateKot(request,kot);
-		new CreateBillXLS().generateBill(request);
-		return "printKot";
+		model.addAttribute("kotitem",kot);		
+		new CreateBillXLS().generateKot(request, kot,date,o_type,table_no);
+		return "redirect:/.html";
 	}
 	
 	@RequestMapping(value="generatekotagain")
@@ -343,7 +350,8 @@ public class Controller {
 		
 		OrderItems order = orderList.get(0);
 		
-		orderDao.saveOrderHistory(orderHistory);
+		OrderHistory billdetail = orderDao.saveOrderHistory(orderHistory);
+		new CreateBillXLS().generateBill(request,billdetail,configurationDao.getOne(1));
 		orderDao.deleteOrderAccTable(Integer.parseInt(tableno));		
 		model.addAttribute("order",orderList);
 		model.addAttribute("total", totalprice);

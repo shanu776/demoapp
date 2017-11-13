@@ -285,6 +285,7 @@ public class TicketPrintPage implements Printable {
 	    PageFormat pf = pjob.defaultPage();
 	    // landscape or portrait
 	    pf.setOrientation(orientation);
+	    System.err.println(pf.getHeight());
 	    // Paper properties
 	    Paper a4Paper = new Paper();
 	    /*double paperWidth  =  8.26;
@@ -313,7 +314,7 @@ public class TicketPrintPage implements Printable {
 	    pjob.setPageable(book);
 	    PrintRequestAttributeSet pras = new HashPrintRequestAttributeSet();
 	        // No jobsheet (banner page, the page with user name, job name, date and whatnot)
-	    pras.add(JobSheets.NONE);
+	    pras.add(JobSheets.STANDARD);
 	    // Printing
 	    pjob.print(pras);
 	    
