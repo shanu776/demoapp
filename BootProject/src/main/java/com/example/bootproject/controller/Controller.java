@@ -1,5 +1,6 @@
 package com.example.bootproject.controller;
 
+import java.awt.print.PrinterJob;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.print.PrintService;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -294,23 +296,39 @@ public class Controller {
 		if(!(kot.size()>0)){
 			return "redirect:/.html?table="+table;
 		}
-		model.addAttribute("kotitem",kot);		
-		new CreateBillXLS().generateKot(request, kot,date,o_type,table_no);
+		model.addAttribute("kotitem",kot);
+		String printer = configurationDao.findall().get(0).getPrinter_for_kot();
+		new CreateBillXLS().generateKot(request, kot,date,o_type,table_no,printer);
 		return "redirect:/.html";
 	}
 	
-	@RequestMapping(value="generatekotagain")
-	public String generateKotAgain(HttpServletRequest request,Model model){
-		Integer tableNo = Integer.parseInt(request.getParameter("tableno"));		
-		System.err.println(tableNo);
-		List<OrderItems> kot =new ArrayList<>();
+	
+	public void generateKotWithBill(Integer tableNo,HttpServletRequest request){	
+		List<OrderItems> kot = new ArrayList<>();
+		String date = "";
+		String o_type = "";
+		Integer table_no = null;
 		List<OrderItems> orders = orderDao.findallAccTable(tableNo);
-		orders.forEach(item->{		
-				kot.add(item);
-		});
-		model.addAttribute("kotitem",kot);
-		
-		return "printKot";
+		for(OrderItems item :orders){
+			OrderItems kotItem = null;
+			System.err.println(item.getQuantity());
+			if(item.getKot()<item.getQuantity()){
+				kotItem = new OrderItems(item.getProduct_name(),item.getComment(),item.getQuantity());
+				kotItem.setQuantity(item.getQuantity()-item.getKot());
+				kot.add(kotItem);
+				date = item.getDate();
+				o_type = item.getOrder_type();
+				table_no = item.getTableno();
+				System.err.println(item.getQuantity()+"  "+kotItem.getQuantity()+" "+item.getKot());
+				item.setKot(item.getQuantity());
+				orderDao.add(item);
+			}
+		}
+		if(!(kot.size()>0)){
+			return ;
+		}
+		String printer = configurationDao.findall().get(0).getPrinter_for_kot();
+		new CreateBillXLS().generateKot(request, kot,date,o_type,table_no,printer);
 	}
 	
 	Integer total_quantity=0;
@@ -320,6 +338,11 @@ public class Controller {
 		String totalprice = request.getParameter("total");
 		String gst = request.getParameter("gst");
 		String gtotal = request.getParameter("gtotal");
+		String discount_per = request.getParameter("dp");
+		String discount_rs = request.getParameter("dr");
+		String container = request.getParameter("co");
+		String delivery = request.getParameter("de");
+		
 		total_quantity=0;
 		System.err.println("table="+tableno+" total="+totalprice+" gst="+gst+" gtotal="+gtotal);
 		
@@ -334,7 +357,7 @@ public class Controller {
 			else		
 				return "redirect:/.html";
 		}
-		OrderHistory orderHistory = new OrderHistory(Integer.parseInt(tableno),orderList.get(0).getOrder_type(), date, totalprice,total_quantity, gst, gtotal, items);
+		OrderHistory orderHistory = new OrderHistory(Integer.parseInt(tableno),orderList.get(0).getOrder_type(), date,discount_per,discount_rs,container,delivery, totalprice,total_quantity, gst, gtotal, items);
 		orderList.forEach(item->{
 			items.add(new Items(Integer.parseInt(tableno),item.getProduct_id(),item.getProduct_name(), item.getQuantity(), item.getPrice(),item.getComment(),orderHistory));	
 			total_quantity = total_quantity+item.getQuantity();
@@ -351,6 +374,7 @@ public class Controller {
 		OrderItems order = orderList.get(0);
 		
 		OrderHistory billdetail = orderDao.saveOrderHistory(orderHistory);
+		generateKotWithBill(billdetail.getTable_no(),request);
 		new CreateBillXLS().generateBill(request,billdetail,configurationDao.getOne(1));
 		orderDao.deleteOrderAccTable(Integer.parseInt(tableno));		
 		model.addAttribute("order",orderList);
@@ -454,7 +478,7 @@ public String getItemFromHistoryToCurrent(HttpServletRequest request){
 	OrderHistory orderHistory = orderDao.getOneOrderHistory(Integer.parseInt(id));
 	orderDao.deleteOrderAccTable(0);
 	orderHistory.getItems().forEach(item->{
-		orderDao.add(new OrderItems(item.getProduct_id(), item.getProdoct(),item.getComment(), item.getQuantity(), 0, orderHistory.getOrder_type(), item.getPrice(), orderHistory.getDate(), 1, orderHistory.getMobileno(), orderHistory.getAddress()));		
+		orderDao.add(new OrderItems(item.getProduct_id(), item.getProdoct(),item.getComment(), item.getQuantity(), 0, orderHistory.getOrder_type(), item.getPrice(), orderHistory.getDate(), item.getQuantity(), orderHistory.getMobileno(), orderHistory.getAddress()));		
 	});
 	orderDao.deleteOrderHistory(orderHistory);
 	return "redirect:/.html";
@@ -486,7 +510,9 @@ public String soldItemReport(Model model){
 @RequestMapping(value="configurationpage")
 public String configPage(Configuration configuration,Model model){
 	Configuration config = configurationDao.getOne(1);
+	PrintService printers[] = PrinterJob.lookupPrintServices();
 	model.addAttribute("config",config);
+	model.addAttribute("printers", printers);
 	return "configuration";
 }
 

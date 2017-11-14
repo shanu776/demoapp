@@ -207,11 +207,17 @@ function printBill(){
 	var total = $('#discounted-amount').text();
 	var gst = $('#gst').text();
 	var gtotal = $('#gtotal').text();
-	console.log('total='+total+' gst='+gst+' gtotal='+gtotal);
+	var discount_percentage = $('#discount-percentage').val();
+	var discount_rs = $('#discount-value').val();
+	var container = $('#ccharge').val();
+	var delivery = $('#dcharge').val();
+		
+	console.log('total='+total+' gst='+gst+' gtotal='+gtotal+' discount-%='+discount_percentage+' discount-rs='+discount_rs+' container='+container+' delivery='+delivery);
+	
 	if(table!="" && table!='0'){
-		location.href="generatebill?tableno="+table+"&total="+total+"&gst="+gst+"&gtotal="+gtotal;
+		location.href="generatebill?tableno="+table+"&total="+total+"&gst="+gst+"&gtotal="+gtotal+"&dp="+discount_percentage+"&dr="+discount_rs+"&co="+container+"&de="+delivery;
 	}else{
-		location.href="generatebill?tableno="+0+"&total="+total+"&gst="+gst+"&gtotal="+gtotal;	
+		location.href="generatebill?tableno="+0+"&total="+total+"&gst="+gst+"&gtotal="+gtotal+"&dp="+discount_percentage+"&dr="+discount_rs+"&co="+container+"&de="+delivery;	
 	}
 }
 

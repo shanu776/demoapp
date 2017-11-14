@@ -178,7 +178,9 @@ import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
+import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
@@ -269,14 +271,22 @@ public class TicketPrintPage implements Printable {
 	}
 	
 	
-	public synchronized void printTicketFile(File ticket, int orientation) throws PrinterException {
+	public synchronized void printTicketFile(File ticket, int orientation,String printer) throws PrinterException {
 	    if (!ticket.exists()) {
 	        throw new PrinterException("Ticket to print does not exist (" + ticket.getAbsolutePath() + ") !");
 	    }
+	    PrintService[] service = PrinterJob.lookupPrintServices();
 	    PrinterJob pjob = PrinterJob.getPrinterJob();
 	    // get printer using PrintServiceLookup.lookupPrintServices(null, null) and looking at the name
 	    /*pjob.setPrintService(getPrintService());*/
-	    pjob.setPrintService(PrintServiceLookup.lookupDefaultPrintService());
+	    /*System.err.println(PrintServiceLookup.lookupDefaultPrintService());*/
+	    for(PrintService p:service){
+	    	if(p.toString().equals(printer)){
+	    		pjob.setPrintService(p);
+	    		break;
+	    	}
+	    }
+	    //pjob.setPrintService(PrintServiceLookup.lookupDefaultPrintService());
 	    // job title
 	    pjob.setJobName(ticket.getName());
       //  pjob.setCopies(1);

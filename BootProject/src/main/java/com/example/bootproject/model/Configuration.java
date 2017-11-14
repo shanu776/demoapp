@@ -17,7 +17,10 @@ public class Configuration {
 	String file_name;
 	Float cgst;
 	Float sgst;
+	String printer_for_kot;
+	String printer_for_bill;
 	String tax_type;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -78,11 +81,24 @@ public class Configuration {
 	public void setTax_type(String tax_type) {
 		this.tax_type = tax_type;
 	}
-	
+	public String getPrinter_for_kot() {
+		return printer_for_kot;
+	}
+	public void setPrinter_for_kot(String printer_for_kot) {
+		this.printer_for_kot = printer_for_kot;
+	}
+	public String getPrinter_for_bill() {
+		return printer_for_bill;
+	}
+	public void setPrinter_for_bill(String printer_for_bill) {
+		this.printer_for_bill = printer_for_bill;
+	}
 	@Override
 	public String toString() {
 		return "Configuration [id=" + id + ", restaurent_name=" + restaurent_name + ", address=" + address
 				+ ", address_linr1=" + address_linr1 + ", mobile_no=" + mobile_no + ", gst_no=" + gst_no
-				+ ", file_name=" + file_name + ", cgst=" + cgst + ", sgst=" + sgst + ", tax_type=" + tax_type + "]";
-	}	
+				+ ", file_name=" + file_name + ", cgst=" + cgst + ", sgst=" + sgst + ", printer_for_kot="
+				+ printer_for_kot + ", printer_for_bill=" + printer_for_bill + ", tax_type=" + tax_type + "]";
+	}
+	
 }

@@ -48,7 +48,7 @@ public class CreateBillXLS {
 	    return fCellstatus;
 	}
 	
-	public void generateKot(HttpServletRequest request,List<OrderItems> model,String date,String type,Integer tno){
+	public void generateKot(HttpServletRequest request,List<OrderItems> model,String date,String type,Integer tno,String printer){
 		 WritableWorkbook myFirstWbook = null;
 		 String path =request.getServletContext().getRealPath("report");
 		 File file = new File(path+"/kot.xls");
@@ -94,13 +94,13 @@ public class CreateBillXLS {
                 }
             }
         }
-        /*try {
+        try {
 			TicketPrintPage ticketPrintPage = new TicketPrintPage(file);
-			ticketPrintPage.printTicketFile(file, 1);
+			ticketPrintPage.printTicketFile(file, 1,printer);
 		} catch (PrinterException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 	}
 	
 	public void generateBill(HttpServletRequest request,OrderHistory billdetail,Configuration config){
@@ -122,12 +122,12 @@ public class CreateBillXLS {
 			 addLabel(excelSheet, 0, 3, "                  GSTIN No:27BAVPK2884A1ZF");
 			 addLabel(excelSheet, 0, 4, "-------------------------------------------------------------------------------------------");
 			
-			 addLabel(excelSheet, 0, 6, "     Date:"+billdetail.getDate());addLabel(excelSheet, 1, 6, "                                   "+billdetail.getOrder_type());
-			 addLabel(excelSheet, 0, 7, "     BillNo:"+billdetail.getId());addLabel(excelSheet, 1, 7, "             ");
+			 addLabel(excelSheet, 0, 6, "     Date:"+billdetail.getDate());addLabel(excelSheet, 1, 6, "                                       "+billdetail.getOrder_type());
+			 addLabel(excelSheet, 0, 7, "     BillNo:"+billdetail.getId());if(billdetail.getTable_no()!=0){addLabel(excelSheet, 1, 7, "                              Table No."+billdetail.getTable_no());}
 			 excelSheet.mergeCells(0, 8, 3, 8);
 			 addLabel(excelSheet, 0, 8, "-------------------------------------------------------------------------------------------");
 		
-			 addLabel(excelSheet, 0, 9, "     Id    Item");
+			 addLabel(excelSheet, 0, 9, "     No.   Item");
 			 addLabel(excelSheet, 1, 9, "                                 Qty   Price   Amount");
 			 excelSheet.mergeCells(0, 10, 3, 10);
 			 addLabel(excelSheet, 0, 10, "-------------------------------------------------------------------------------------------");
@@ -138,8 +138,22 @@ public class CreateBillXLS {
 				 addLabel(excelSheet, 1, i,"                                    "+oi.getQuantity()+"   "+(oi.getPrice()/oi.getQuantity())+"   "+oi.getPrice()+"");
 				 i++;
 			 }
-			 excelSheet.mergeCells(0, i, 6, i);
+			 excelSheet.mergeCells(0, i, 3, i);
 			 addLabel(excelSheet, 0, i, "-------------------------------------------------------------------------------------------");
+			 
+			 addLabel(excelSheet, 0, i+1, "                         TotalQuantity:"+billdetail.getTotal_quantity());
+			 addLabel(excelSheet, 1, i+1, "                                   Sub Total    "+billdetail.getTotal_Amount());
+			 
+			 addLabel(excelSheet, 0, i+2, "      CGST : "+config.getCgst()+" % + SGST : "+config.getSgst()+" %");
+			 addLabel(excelSheet, 1, i+2, "                                     TotalGst    "+billdetail.getGst());
+			 
+			 addLabel(excelSheet, 0, i+3, "-------------------------------------------------------------------------------------------");
+			 
+			 addLabel(excelSheet, 0, i+4, "                   Grand Total ");
+			 addLabel(excelSheet, 1, i+4, "                                                   "+billdetail.getGtotal());
+			 
+			 excelSheet.mergeCells(0, i+5, 3, i+5);
+			 addLabel(excelSheet, 0, i+5, "------------------------ThankYou (Visit Again)------------------------------------");
 			 myFirstWbook.write();			 
 		} catch (IOException | WriteException e) {
 			// TODO Auto-generated catch block
@@ -157,7 +171,7 @@ public class CreateBillXLS {
             }
         }
 		 try {
-				new TicketPrintPage(file).printTicketFile(file, 1);
+				new TicketPrintPage(file).printTicketFile(file, 1,config.getPrinter_for_bill());
 			} catch (PrinterException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
